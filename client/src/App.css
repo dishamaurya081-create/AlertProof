@@ -1,0 +1,565 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap');
+
+/* ---------- Tokens ---------- */
+
+:root {
+  --bg: #0b1019;
+  --surface: #131a28;
+  --surface-2: #1a2335;
+  --line: #2a3650;
+  --text: #e8ecf4;
+  --muted: #a3afc4;
+  --signal: #ffb938;
+  --signal-ink: #1a1200;
+  --ok: #62d6a4;
+  --ok-bg: rgba(98, 214, 164, 0.12);
+  --bad: #ff8f9c;
+  --bad-bg: rgba(255, 143, 156, 0.12);
+  --neutral: #b8c2d4;
+  --neutral-bg: rgba(184, 194, 212, 0.12);
+  --rec: #ff7a8a;
+
+  --radius: 10px;
+  --measure: 760px;
+
+  font-family:
+    'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI',
+    'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Bengali', 'Noto Sans Tamil',
+    'Noto Sans Telugu', 'Noto Sans Gujarati', 'Noto Sans Kannada',
+    'Noto Sans Malayalam', 'Noto Sans Gurmukhi', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background: var(--bg);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, p, ul {
+  margin: 0;
+}
+
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 3px;
+}
+
+/* ---------- Layout ---------- */
+
+.app {
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 32px;
+  gap: 32px;
+}
+
+header,
+main,
+footer,
+.error-message {
+  width: 100%;
+  max-width: var(--measure);
+}
+
+header h1 {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+header p {
+  color: var(--muted);
+  max-width: 56ch;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* ---------- Steps (the workflow is a real sequence) ---------- */
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  column-gap: 20px;
+}
+
+.step::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 44px;
+  bottom: -28px;
+  width: 2px;
+  background: var(--line);
+}
+
+.step:last-of-type::before {
+  display: none;
+}
+
+.step-num {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--signal);
+  font-weight: 700;
+}
+
+.step-body {
+  min-width: 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 36px;
+  margin-bottom: 4px;
+}
+
+h2 label {
+  cursor: default;
+}
+
+.step-help {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  margin-bottom: 16px;
+  max-width: 62ch;
+}
+
+h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+h4 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* ---------- Form fields ---------- */
+
+.field {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  line-height: 1.6;
+  transition: border-color 0.15s;
+}
+
+textarea.field {
+  min-height: 140px;
+  resize: vertical;
+}
+
+select.field {
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+select.field option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.field::placeholder {
+  color: #7d8aa3;
+}
+
+.field:hover {
+  border-color: #3a4968;
+}
+
+.field:focus-visible {
+  border-color: var(--signal);
+  outline-offset: 0;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s, background-color 0.15s;
+}
+
+.btn-primary {
+  width: 100%;
+  color: var(--signal-ink);
+  background: var(--signal);
+}
+
+.btn-secondary {
+  margin-top: 16px;
+  color: var(--text);
+  background: transparent;
+  border-color: var(--line);
+}
+
+.btn-record {
+  color: var(--signal-ink);
+  background: var(--rec);
+}
+
+.btn-stop {
+  color: var(--text);
+  background: transparent;
+  border-color: var(--rec);
+}
+
+.btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.btn-secondary:hover:not(:disabled),
+.btn-stop:hover:not(:disabled) {
+  background: var(--surface-2);
+  filter: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Translated message (the one thing that should stand out) ---------- */
+
+.translated-content {
+  margin-top: 12px;
+  padding: 20px 22px;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--signal);
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  margin-top: 14px;
+  padding: 12px 14px;
+  font-size: 0.9375rem;
+  color: var(--signal);
+  background: rgba(255, 185, 56, 0.08);
+  border: 1px solid rgba(255, 185, 56, 0.35);
+  border-radius: var(--radius);
+}
+
+/* ---------- Audio ---------- */
+
+.audio-section,
+.listener-audio {
+  margin-top: 18px;
+}
+
+.audio-section p,
+.listener-audio p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  margin-bottom: 8px;
+}
+
+audio {
+  display: block;
+  width: 100%;
+  color-scheme: dark;
+}
+
+/* ---------- Listener recording ---------- */
+
+.recording-panel,
+.transcript-panel {
+  margin-top: 4px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.transcript-panel {
+  margin-top: 16px;
+}
+
+.recording-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--muted);
+}
+
+.recording-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #64748b;
+}
+
+.recording-dot.active {
+  background: var(--rec);
+  box-shadow: 0 0 12px var(--rec);
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.processing-message {
+  margin-top: 14px;
+  color: var(--signal);
+  font-size: 0.9375rem;
+}
+
+.transcript-panel > p {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  font-size: 1.0625rem;
+  background: var(--bg);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Verification report ---------- */
+
+.verification-report {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.verification-heading,
+.check-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.report-summary {
+  margin-top: 10px;
+  color: var(--muted);
+  max-width: 66ch;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.preserved {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+
+.flagged {
+  color: var(--bad);
+  background: var(--bad-bg);
+}
+
+.not-specified {
+  color: var(--neutral);
+  background: var(--neutral-bg);
+}
+
+.checks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.check-card {
+  min-width: 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.check-detail {
+  margin-top: 12px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.check-key {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.issue-text {
+  margin-top: 12px;
+  color: var(--bad);
+  font-size: 0.9375rem;
+}
+
+.issues-panel {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--bad-bg);
+  border-radius: var(--radius);
+}
+
+.issues-panel h4 {
+  color: var(--bad);
+}
+
+.issues-panel ul {
+  padding-left: 20px;
+  font-size: 0.9375rem;
+}
+
+.issues-panel li + li {
+  margin-top: 6px;
+}
+
+.human-review {
+  margin-top: 16px;
+  padding: 14px 16px;
+  font-size: 0.9375rem;
+  color: var(--signal);
+  background: rgba(255, 185, 56, 0.08);
+  border: 1px solid rgba(255, 185, 56, 0.35);
+  border-radius: var(--radius);
+}
+
+/* ---------- Errors ---------- */
+
+.error-message {
+  padding: 14px 16px;
+  color: var(--bad);
+  background: var(--bad-bg);
+  border: 1px solid rgba(255, 143, 156, 0.4);
+  border-radius: var(--radius);
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 650px) {
+  .app {
+    padding: 36px 16px 24px;
+    gap: 24px;
+  }
+
+  .step {
+    grid-template-columns: 28px minmax(0, 1fr);
+    column-gap: 14px;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    font-size: 0.875rem;
+  }
+
+  .step::before {
+    left: 13px;
+    top: 36px;
+  }
+
+  h2 {
+    line-height: 28px;
+    font-size: 1.125rem;
+  }
+
+  .checks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recording-panel,
+  .transcript-panel {
+    padding: 16px;
+  }
+
+  .translated-content {
+    font-size: 1.125rem;
+    padding: 16px;
+  }
+
+  .btn-record,
+  .btn-stop {
+    width: 100%;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
